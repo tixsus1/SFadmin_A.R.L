@@ -1,0 +1,44 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+      - name: Install Zabbix-agent Centos
+        become: yes
+        yum:
+           name=zabbix-agent
+           state=latest
+        when:
+            ansible_os_family == "RedHat"
+      - name: Install Zabbix-agent Ubuntu
+        become: yes
+        apt:
+            name=zabbix-agent
+            state=latest
+        when:
+            ansible_os_family == "Debian"
+
+      - name: Stop zabbix-agent
+        become: yes
+        systemd:
+            name: zabbix-agent
+            enabled: yes
+            state: stopped
+
+      - name: Remove zabbix config file
+        become: yes
+        file:
+            path: /etc/zabbix/zabbix_agentd.conf
+            state: absent
+
+      - name: Create new zabbix config
+        become: yes
+        template:
+            src: "/etc/ansible/common/files/zabbix_agentd.conf"
+            dest: "/etc/zabbix/zabbix_agentd.conf"
+
+      - name: Start zabbix-agent
+        become: yes
+        service:
+            name: zabbix-agent
+            state: started
+
