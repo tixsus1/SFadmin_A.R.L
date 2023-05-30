@@ -1,0 +1,44 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+          
+  - name: Install Mail Server on RedHat Family
+    yum:
+      name={{ item }} update_cache=yes
+      state=latest
+    loop: [ 'postfix', 'dovecot-core', 'dovecot-imapd', 'dovecot-pop3d', 'dovecot-lmtpd' ]
+    when:
+      ansible_os_family == "RedHat"
+
+  - name: systemd
+    systemd:
+     name: '{{ item }}'
+     enabled: yes
+     state: started
+    with_items:
+      - postfix
+      - dovecot
+    when:
+      ansible_os_family == "RedHat"
+
+
+  - name: Install Mail Server on Debian Family
+    apt:
+      name={{ item }} update_cache=yes
+      state=latest
+    loop: [ 'postfix', 'dovecot-core', 'dovecot-imapd', 'dovecot-pop3d', 'dovecot-lmtpd' ]
+    when:
+      ansible_os_family == "Debian"
+
+  - name: systemd
+    systemd:
+     name: '{{ item }}'
+     enabled: yes
+     state: started
+    with_items:
+      - postfix
+      - dovecot
+    when:
+      ansible_os_family == "Debian"
+

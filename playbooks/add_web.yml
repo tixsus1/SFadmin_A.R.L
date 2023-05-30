@@ -11,6 +11,17 @@
     when:
       ansible_os_family == "RedHat"
     notify: Status Apache
+  
+  - name: Start
+    systemd:
+      name: {{ item }}
+      state: started
+    with_items:
+      - apache2 
+      - nginx
+    when:
+      ansible_os_family == "RedHat"
+
 
 
   - name: Install Webs Servers on Debian Family
@@ -21,4 +32,13 @@
     when:
       ansible_os_family == "Debian"
     notify: Status Apache
-
+  - name: Start
+      systemd:
+      name: {{ item }}
+      state: started
+    with_items:
+      - apache2
+      - nginx
+    when:
+      ansible_os_family == "Debian"
+                                                                          
