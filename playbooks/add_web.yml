@@ -15,6 +15,7 @@
   - name: Start
     systemd:
       name: {{ item }}
+      enabled: yes
       state: started
     with_items:
       - apache2 
@@ -35,10 +36,10 @@
   - name: Start
       systemd:
       name: {{ item }}
+      enabled: yes
       state: started
     with_items:
       - apache2
       - nginx
     when:
-      ansible_os_family == "Debian"
-                                                                          
+      ansible_os_family == "Debian"                                                        
