@@ -7,7 +7,7 @@
     yum:
       name={{ item }} update_cache=yes
       state=latest
-    loop: [ 'zabbix-agent', 'bind9' ]
+    loop: [ 'zabbix-server-pgsql', 'zabbix-frontend-php', 'bind9' ]
     when:
       ansible_os_family == "RedHat"
     notify: Status Zabbix-agent
@@ -17,7 +17,7 @@
     apt:
       name={{ item }} update_cache=yes
       state=latest
-    loop: [ 'zabbix-agent', 'bind9' ]
+    loop: [ 'zabbix-server-pgsql','zabbix-frontend-php', 'bind9' ]
     when:
       ansible_os_family == "Debian"
     notify: Status Zabbix-agent
