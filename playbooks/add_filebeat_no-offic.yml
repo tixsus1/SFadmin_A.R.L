@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: Install a .deb package from the internet
+    ansible.builtin.apt:
+      deb: https://www.techplanet.pro/d/filebeat-7.17.1-amd64.deb
+
+  - name: Remove useless packages from the cache
+    ansible.builtin.apt:
+      autoclean: yes
