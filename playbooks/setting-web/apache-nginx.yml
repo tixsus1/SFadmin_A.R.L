@@ -1,0 +1,35 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+    - name: Set up Apache virtualhost
+      template:
+        src: "file/000-default.conf"
+        dest: "/etc/apache2/sites-available/000-default.conf"
+
+    - name: Set 8080 
+      template:
+        src: "file/ports.conf"
+        dest: "/etc/apache2/ports.conf"
+      notify: Restart Apache
+
+    - name: Nginx config proxy
+      template:
+        src: "file/default"
+        dest: "/etc/nginx/sites-available/default"
+      notify: Restart Nginx
+
+
+
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+     
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
