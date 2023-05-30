@@ -3,21 +3,21 @@
   become: yes
   tasks:
           
-  - name: Install Zabbix-agent and bind and filebeat on RedHat Family
+  - name: Install Zabbix-agent and bind on RedHat Family
     yum:
       name={{ item }} update_cache=yes
       state=latest
-    loop: [ 'zabbix-agent', 'bind9', 'filebeat' ]
+    loop: [ 'zabbix-agent', 'bind9' ]
     when:
       ansible_os_family == "RedHat"
     notify: Status Zabbix-agent
 
 
-  - name: Install Zabbix-agent and bind and filebeat on Debian Family
+  - name: Install Zabbix-agent and bind on Debian Family
     apt:
       name={{ item }} update_cache=yes
       state=latest
-    loop: [ 'zabbix-agent', 'bind9', 'filebeat' ]
+    loop: [ 'zabbix-agent', 'bind9' ]
     when:
       ansible_os_family == "Debian"
     notify: Status Zabbix-agent
