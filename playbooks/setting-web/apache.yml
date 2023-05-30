@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+  tasks:
+- name: Set up Apache virtualhost
+      template:
+        src: "setiing-web/conf/000-default.conf"
+        dest: "/etc/apache2/sites-available/000-default.conf"
+
+- name: Set 8080 
+      template:
+        src: "setiing-web/conf/ports.conf"
+        dest: "/etc/apache2/ports.conf"
+      notify: Restart Apache
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
