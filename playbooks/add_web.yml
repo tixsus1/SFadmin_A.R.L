@@ -1,0 +1,21 @@
+---
+- name: Install Webs Servers on RedHat Family
+  yum:
+    name={{ item }} update_cache=yes
+    state=latest
+  loop: [ 'apache2', 'nginx', 'php', 'libapache2-mod-php' ]
+  when:
+    ansible_os_family == "RedHat"
+  notify:
+    - nginx systemd
+
+- name: Install Webs Servers on Debian Family
+  apt:
+    name={{ item }} update_cache=yes
+    state=latest
+  loop: [ 'apache2', 'nginx', 'php', 'libapache2-mod-php' ]
+  when:
+    ansible_os_family == "Debian"
+  notify:
+    - nginx systemd
+
