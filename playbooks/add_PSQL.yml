@@ -1,4 +1,8 @@
 #Установка PSQL на CENTOS 7
+#
+#После установки требуется инициализация базы данных, прежде чем можно будет запустить службу.
+#
+#sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
 ---
 - hosts: all
   become: yes
