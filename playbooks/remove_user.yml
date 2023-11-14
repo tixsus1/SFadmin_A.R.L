@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    user: "ra"
+  tasks:
+
+  - name: Remove user
+    user:
+      name: "{{user}}"
+      state: absent
+      remove: yes
+
+  - name: Remove group
+    group:
+      name: "{{user}}"
+      state: absent
+
+  - name: Remove home dir user
+    file:
+      path: /home/ "{{user}}"
+      state: absent
